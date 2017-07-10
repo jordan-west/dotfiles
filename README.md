@@ -1,7 +1,4 @@
-# dotfiles
-
-Shell and vim configuration
-
+# Personal shell and vim configuration
 Using NERDTree - https://github.com/scrooloose/nerdtree
 
 Using vim-airline - https://github.com/vim-airline/vim-airline
