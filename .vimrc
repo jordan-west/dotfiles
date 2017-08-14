@@ -10,6 +10,9 @@ set incsearch " Search as characters are entered
 set hlsearch " Highlight matches
 set noswapfile " Get rid of that pesky swap file
 filetype plugin indent on " Indent based on filetype - see indent folder
+set tabstop=4
+set shiftwidth=4
+set expandtab
 
 " Additional settings
 let g:bufferline_echo=0
