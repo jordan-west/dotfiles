@@ -1,24 +1,46 @@
-" Custom settings
-syntax on " Use syntax highlighting
-color dracula " Set vim colors
-set clipboard=unnamed " Using os clipboard
-set backspace=indent,eol,start " Backspace works intuitively
-set number " Show line numbers
-set cursorline " Highlight the current line
-set showmatch " Highlight matching brackets
-set incsearch " Search as characters are entered
-set hlsearch " Highlight matches
-set noswapfile " Get rid of that pesky swap file
-filetype plugin indent on " Indent based on filetype - see indent folder
+" Start vim in home directory
+cd ~
+
+" Essential options
+syntax on
+filetype plugin indent on
+set nocompatible
+set backspace=indent,eol,start
+
+" Integrate with OS clipboard
+set clipboard=unnamed
+
+" History/backup files
+set history=200
+set backup
+set undodir=~/.vim/.undo
+set directory=~/.vim/.swp
+set backupdir=~/.vim/.backup
+
+" Spacing options
 set tabstop=4
 set shiftwidth=4
 set expandtab
 
-" Additional settings
-let g:bufferline_echo=0
+" Search options
+set showmatch
+set incsearch
+set hlsearch
 
-" Mappings
-map <C-b> :NERDTreeToggle<CR>
+" Interface options
+set number
+set relativenumber
+set ruler
+set cursorline
+set showmode
+set wildmenu
 
-" Set up pathogen
-execute pathogen#infect()
+" Tag options
+set tags^=tags,~/tags
+
+" gVim options
+set guifont=Consolas:h10
+set guioptions=
+
+" Theme options
+color dracula
