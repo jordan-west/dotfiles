@@ -21,6 +21,7 @@ vim.opt.cursorline = true
 -- Other
 vim.g.c_syntax_for_h = 1
 vim.g.mapleader = " "
+vim.keymap.set("n", "<C-b>", vim.cmd.make, {})
 
 function add_copyright_header(args)
     vim.fn.setline(1, "/*")
@@ -50,16 +51,26 @@ require("packer").startup(function(use)
     use({ "nvim-telescope/telescope.nvim", tag = "0.1.1" })
     -- LSP
     use("neovim/nvim-lspconfig")
+    use("hrsh7th/nvim-cmp")
+    use("hrsh7th/cmp-nvim-lsp")
 end)
 
 -- Colorscheme
 vim.cmd.colorscheme("dracula")
 
+-- Treesitter
+require("nvim-treesitter.configs").setup({
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+    },
+})
+
 -- Telescope
 local builtin = require("telescope.builtin")
 
-vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
-vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
+vim.keymap.set("n", "<leader>ff", function() builtin.find_files({ follow = true }) end, {})
+vim.keymap.set("n", "<leader>fg", function() builtin.live_grep({ additional_args = { "--follow" } }) end, {})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 
@@ -76,6 +87,28 @@ local on_attach = function(client, bufnr)
     vim.diagnostic.disable()
 end
 
+local cmp = require("cmp")
+
+cmp.setup({
+    sources = {
+        { name = "nvim_lsp" },
+        { name = "buffer" },
+    },
+    completion = {
+        autocomplete = false,
+    },
+})
+
+vim.keymap.set("i", "<C-x><C-o>", cmp.complete, {})
+
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 require("lspconfig").clangd.setup({
     on_attach = on_attach,
+    capabilities = capabilities,
+})
+
+require("lspconfig").sumneko_lua.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
 })
