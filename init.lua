@@ -18,10 +18,15 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
 
+function run_remedy()
+    os.execute('remedybg.exe start-debugging')
+end
+
 -- Other
 vim.g.c_syntax_for_h = 1
 vim.g.mapleader = " "
 vim.keymap.set("n", "<C-b>", vim.cmd.make, {})
+vim.keymap.set("n", "<F5>", run_remedy, {})
 
 function add_copyright_header(args)
     vim.fn.setline(1, "/*")
@@ -44,7 +49,7 @@ require("packer").startup(function(use)
     -- Plugin manager
     use("wbthomason/packer.nvim")
     -- Colorscheme
-    use("Mofiqul/dracula.nvim")
+    use({ "catppuccin/nvim", as = "catppuccin" })
     -- Telescope
     use("nvim-lua/plenary.nvim")
     use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
@@ -56,7 +61,7 @@ require("packer").startup(function(use)
 end)
 
 -- Colorscheme
-vim.cmd.colorscheme("dracula")
+vim.cmd.colorscheme("catppuccin")
 
 -- Treesitter
 require("nvim-treesitter.configs").setup({
@@ -104,11 +109,6 @@ vim.keymap.set("i", "<C-x><C-o>", cmp.complete, {})
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 require("lspconfig").clangd.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-})
-
-require("lspconfig").sumneko_lua.setup({
     on_attach = on_attach,
     capabilities = capabilities,
 })
